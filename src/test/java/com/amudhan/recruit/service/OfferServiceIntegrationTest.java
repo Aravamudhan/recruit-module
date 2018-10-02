@@ -23,8 +23,10 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.amudhan.recruit.domain.JobApplication;
 import com.amudhan.recruit.domain.Offer;
 import com.amudhan.recruit.exception.EntityNotFoundException;
+import com.amudhan.recruit.exception.JobApplicationException;
 
 /**
  * 1. This is the integration test for Offer service <br/>
@@ -43,6 +45,9 @@ public class OfferServiceIntegrationTest {
 
   @Autowired
   private OfferService offerService;
+
+  @Autowired
+  private JobApplicationService jobApplicationService;
 
   private static final Logger log = LoggerFactory.getLogger(OfferServiceIntegrationTest.class);
 
@@ -95,7 +100,7 @@ public class OfferServiceIntegrationTest {
   public void testB_FindAllServiceTest() throws EntityNotFoundException {
     List<Offer> offers = offerService.findAll();
     assertNotNull(offers);
-    assertTrue(offers.size() > 1);
+    assertTrue(offers.size() >= 1);
   }
 
   @Test
@@ -114,13 +119,33 @@ public class OfferServiceIntegrationTest {
     log.info(updatedOffer.toString());
   }
 
-  // Create few job applications
-  // Make them apply to the Offer
-  // View them all
+  @Test
+  public void testD_FindAllJobApplicationsTest()
+      throws EntityNotFoundException, JobApplicationException {
+    Offer offer = offerService.findById(OFFER_ID);
+    // Create 3 job applications
+    JobApplication jobApplication1 = new JobApplication("candidate1@mail.com", offer);
+    JobApplication jobApplication2 = new JobApplication("candidate2@mail.com", offer);
+    JobApplication jobApplication3 = new JobApplication("candidate3@mail.com", offer);
+
+    jobApplicationService.apply(jobApplication1);
+    jobApplicationService.apply(jobApplication2);
+    jobApplicationService.apply(jobApplication3);
+
+    offer = offerService.findById(OFFER_ID);
+    assertNotNull(offer);
+    assertNotNull(offer.getJobApplications());
+    assertTrue(offer.getJobApplicationsCount() >= 3);
+    offer.getJobApplications().stream().forEach(app -> {
+      assertTrue(app.equals(jobApplication1) || app.equals(jobApplication2)
+          || app.equals(jobApplication3));
+    });
+
+  }
 
   @Test
   @Rollback(false)
-  public void testD_deleteServiceTest() {
+  public void testE_deleteServiceTest() {
     offerService.deleteById(OFFER_ID);
   }
 

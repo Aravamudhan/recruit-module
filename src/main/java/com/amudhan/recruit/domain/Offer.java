@@ -28,7 +28,7 @@ public class Offer extends AbstractEntity {
   private LocalDateTime startDate;
 
   @Column(name = "job_applications_count")
-  private Integer jobApplicationsCount;
+  private Integer jobApplicationsCount = 0;
 
   @OneToMany(mappedBy = "offer")
   private Set<JobApplication> jobApplications = new HashSet<>();
@@ -123,8 +123,7 @@ public class Offer extends AbstractEntity {
   @Override
   public String toString() {
     return "Offer [jobTitle=" + jobTitle + ", startDate=" + startDate + ", jobApplicationsCount="
-        + jobApplicationsCount + ", jobApplications=" + jobApplications + ", id=" + getId()
-        + ", dateCreated=" + getDateCreated() + "]";
+        + jobApplicationsCount + ", id=" + getId() + ", dateCreated=" + getDateCreated() + "]";
   }
 
 

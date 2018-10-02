@@ -24,6 +24,9 @@ public class JobApplication extends AbstractEntity {
   @Enumerated(EnumType.STRING)
   private JobApplicationStatus jobApplicationStatus = JobApplicationStatus.APPLIED;
 
+  @SuppressWarnings("unused")
+  private JobApplication() {}
+
   public JobApplication(String email, Offer offer) {
     this.email = email;
     this.offer = offer;
