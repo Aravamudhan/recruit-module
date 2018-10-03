@@ -58,18 +58,18 @@ The start date is a required.
 {
   "email": "candidate101@mail.com",
   "offerDTO": {
-    "id": 1001
+    "id": 5003
   }
 }
 ```
   
 * To view/track the status and details of a job application `GET` request to `/v1/jobapplications/10001`
-* To view the number of applications for an offer and other details about a job offer `GET` request to `/v1/offers/1001` will work.
+* To view the number of applications for an offer and other details about a job offer `GET` request to `/v1/offers/5001` will work.
 
 ```
 {
-  "id": 1001,
-  "jobTitle": "Senior Software Engineer I",
+  "id": 5001,
+  "jobTitle": "Lead developer I",
   "startDate": "2018-10-23T09:21:59.332043",
   "jobApplicationsCount": 3,
   "jobApplications": []
