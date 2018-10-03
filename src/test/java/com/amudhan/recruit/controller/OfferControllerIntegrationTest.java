@@ -1,5 +1,14 @@
 package com.amudhan.recruit.controller;
 
+import static org.junit.Assert.fail;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.time.LocalDateTime;
+
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -20,16 +29,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.amudhan.recruit.RecruitModuleApplication;
 import com.amudhan.recruit.dto.OfferDTO;
-import com.amudhan.recruit.service.JobApplicationServiceIntegrationTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import static org.junit.Assert.fail;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.time.LocalDateTime;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -97,19 +99,28 @@ public class OfferControllerIntegrationTest {
     mockMvc.perform(get(endpoint).header("Content-Type", "application/json"))
         .andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(OFFER_ID))
-        .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(OFFER_ID))
         .andExpect(MockMvcResultMatchers.jsonPath("$[0].jobTitle").value(JOB_TITLE))
         .andExpect(MockMvcResultMatchers.jsonPath("$[0].startDate").value(START_DATE.toString()));
   }
 
   @Test
-  public void testC_UpdateOfferTest() {
-    fail();
+  public void testC_UpdateOfferTest() throws JsonProcessingException, Exception {
+    OfferDTO offerDTO =
+        new OfferDTO().id(OFFER_ID).jobTitle(JOB_TITLE_UPDATED).startDate(START_DATE_UPDATED);
+    mockMvc
+        .perform(put(endpoint).header("Content-Type", "application/json")
+            .content(mapper.writeValueAsString(offerDTO)))
+        .andExpect(status().isOk())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(OFFER_ID))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.jobTitle").value(JOB_TITLE_UPDATED)).andExpect(
+            MockMvcResultMatchers.jsonPath(".startDate").value(START_DATE_UPDATED.toString()));
+
   }
 
   @Test
-  public void testD_DeleteOfferTest() {
-    fail();
+  public void testD_DeleteOfferTest() throws Exception {
+    mockMvc.perform(delete(endpoint + "/" + OFFER_ID).header("Content-Type", "application/json"))
+        .andExpect(status().isOk());
   }
 
 }

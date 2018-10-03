@@ -26,6 +26,7 @@ public class OfferMapper {
 
   public static Offer toEntity(OfferDTO offerDTO) {
     Offer offer = new Offer().jobTitle(offerDTO.getJobTitle()).startDate(offerDTO.getStartDate());
+    offer.setId(offerDTO.getId());
     return offer;
   }
 
