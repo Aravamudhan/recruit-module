@@ -12,7 +12,6 @@ public class OfferMapper {
     OfferDTO offerDTO = new OfferDTO();
     if (offer != null) {
       offerDTO.id(offer.getId()).startDate(offer.getStartDate())
-          .jobApplications(JobApplicationMapper.toDtoSet(offer.getJobApplications()))
           .jobApplicationsCount(offer.getJobApplicationsCount()).jobTitle(offer.getJobTitle());
     }
     return offerDTO;
@@ -25,7 +24,13 @@ public class OfferMapper {
   }
 
   public static Offer toEntity(OfferDTO offerDTO) {
-    Offer offer = new Offer().jobTitle(offerDTO.getJobTitle()).startDate(offerDTO.getStartDate());
+    Offer offer = new Offer();
+    if (offerDTO.getJobTitle() != null) {
+      offer.setJobTitle(offerDTO.getJobTitle());
+    }
+    if (offerDTO.getStartDate() != null) {
+      offer.setStartDate(offerDTO.getStartDate());
+    }
     offer.setId(offerDTO.getId());
     return offer;
   }

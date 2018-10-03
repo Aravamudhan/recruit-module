@@ -15,6 +15,12 @@ import com.amudhan.recruit.service.JobApplicationService;
 import com.amudhan.recruit.service.NotificationService;
 import com.amudhan.recruit.service.OfferService;
 
+/**
+ * Implementation of the JobApplication service
+ * 
+ * @author amudhan
+ *
+ */
 @Service
 public class JobApplicationServiceImplementation implements JobApplicationService {
 

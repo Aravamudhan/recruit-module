@@ -9,6 +9,12 @@ import com.amudhan.recruit.exception.EntityNotFoundException;
 import com.amudhan.recruit.repository.OfferRepository;
 import com.amudhan.recruit.service.OfferService;
 
+/**
+ * Implementation of the OfferServie
+ * 
+ * @author amudhan
+ *
+ */
 @Service
 public class OfferServiceImplementation implements OfferService {
 

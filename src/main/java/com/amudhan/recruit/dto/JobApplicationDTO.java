@@ -48,7 +48,7 @@ public class JobApplicationDTO {
     this.offerDTO = offerDTO;
   }
 
-  public JobApplicationDTO offer(OfferDTO offerDTO) {
+  public JobApplicationDTO offerDTO(OfferDTO offerDTO) {
     this.offerDTO = offerDTO;
     return this;
 

@@ -21,6 +21,16 @@ import com.amudhan.recruit.dto.mapper.OfferMapper;
 import com.amudhan.recruit.exception.EntityNotFoundException;
 import com.amudhan.recruit.service.OfferService;
 
+/**
+ * Endpoints for job offers <br/>
+ * 
+ * TODO: Secure the endpoints using a token based authentication system such as JWT<br/>
+ * TODO: Secure the endpoints based on ROLEs too. Only admin users must have access to all the
+ * endpoints below<br/>
+ * 
+ * @author amudhan
+ *
+ */
 @RestController
 @RequestMapping("v1/offers")
 public class OfferController {
@@ -32,12 +42,13 @@ public class OfferController {
   }
 
   @GetMapping("/{offerId}")
-  public Offer getOffer(@PathVariable long offerId) throws EntityNotFoundException {
-    return offerService.findById(offerId);
+  public OfferDTO getOfferById(@PathVariable long offerId) throws EntityNotFoundException {
+    Offer offer = offerService.findById(offerId);
+    return OfferMapper.toDto(offer);
   }
 
   @GetMapping
-  public List<OfferDTO> getOffers() {
+  public List<OfferDTO> getAllOffers() {
     return OfferMapper.toDtoList(offerService.findAll());
   }
 
@@ -45,13 +56,17 @@ public class OfferController {
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public OfferDTO createOffer(@Valid @RequestBody OfferDTO offerDTO) {
-    return OfferMapper.toDto(offerService.create(OfferMapper.toEntity(offerDTO)));
+    Offer offer = OfferMapper.toEntity(offerDTO);
+    offer = offerService.create(offer);
+    return OfferMapper.toDto(offer);
   }
 
   @PutMapping
   public OfferDTO updateOffer(@Valid @RequestBody OfferDTO offerDTO)
       throws EntityNotFoundException {
-    return OfferMapper.toDto(offerService.update(OfferMapper.toEntity(offerDTO)));
+    Offer offer = OfferMapper.toEntity(offerDTO);
+    offer = offerService.update(offer);
+    return OfferMapper.toDto(offer);
   }
 
   @DeleteMapping("/{offerId}")

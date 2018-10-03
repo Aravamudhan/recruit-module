@@ -9,6 +9,12 @@ import com.amudhan.recruit.domain.Notification;
 import com.amudhan.recruit.repository.NotificationRepository;
 import com.amudhan.recruit.service.NotificationService;
 
+/**
+ * Implementation of the NotificationService
+ * 
+ * @author amudhan
+ *
+ */
 @Service
 public class NotificationServiceImplementation implements NotificationService {
 
