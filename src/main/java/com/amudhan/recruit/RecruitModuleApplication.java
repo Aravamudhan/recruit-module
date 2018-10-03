@@ -37,4 +37,5 @@ public class RecruitModuleApplication {
         protocol, InetAddress.getLocalHost().getHostAddress(), env.getProperty("server.port"),
         env.getActiveProfiles());
   }
+
 }
